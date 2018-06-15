@@ -14,21 +14,21 @@ public class GreetingController {
     @Autowired
     private BookRepository bookRepository;
 
-    @GetMapping("/greeting")
+    @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name,
                            Map<String, Object> model) {
         model.put("name", name);
         return "greeting";
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String main(Map<String, Object> model){
         Iterable<Book> books = bookRepository.findAll();
         model.put("books", books);
         return "main";
     }
 
-    @PostMapping
+    @PostMapping("/main")
     public String add(@RequestParam String title, @RequestParam String description, @RequestParam int printYear, @RequestParam String author,
                       @RequestParam String isbn, @RequestParam boolean readAlready, Map<String, Object> model){
         Book book = new Book(title, description, printYear, author, isbn, readAlready);
