@@ -51,9 +51,9 @@ public class GreetingController {
     }
 
     @GetMapping("edit/{id}")
-    public String update(@PathVariable("id") int id, Model model){
+    public String update(@PathVariable("id") int id, Map<String, Object> model){
         Book book = bookRepository.findById(id);
-        model.addAttribute("repos", book);
+        model.put("repos", book);
         return "update";
     }
 
@@ -62,4 +62,11 @@ public class GreetingController {
         bookRepository.save(book);
         return "redirect:/main";
     }
+
+   /* @PostMapping("remove")
+    public String remove(@PathVariable("id") int id, Model model){
+
+
+        return "main";
+    }*/
 }

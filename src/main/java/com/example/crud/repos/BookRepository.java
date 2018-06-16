@@ -8,4 +8,5 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Integer> {
     List<Book> findByTitleContaining(String title);
     Book findById(int id);
+    //List<Book> removeBooksById(int id);
 }
