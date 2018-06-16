@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
-<div>
+<div class="w3-container w3-teal">
     <form method="post">
         <input type="text" name="title" placeholder="Введите название книги" />
         <input type="text" name="description" placeholder="Описание книги" />
@@ -11,7 +11,7 @@
         <input type="text" name="author" placeholder="Имя автора" />
         <input type="text" name="isbn" placeholder="ISBN книги" />
         <input type="text" name="readAlready" placeholder="" />
-        <button type="submit">Добавить</button>
+        <button class="w3-circle w3-gray w3-large">+</button>
     </form>
 </div>
 <div>Список книг:</div>
@@ -28,7 +28,7 @@
         <span>{{author}}</span>
         <span>{{isbn}}</span>
         <span>{{readAlready}}</span>
-        <button style="line-height: 1.2"> <a href="edit/{{id}}">Изменить</a> </button>
+        <a href="edit/{{id}}" class="w3-button w3-gray">Изменить</a>
     </div>
 {{/books}}
 </body>

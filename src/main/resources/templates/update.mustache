@@ -8,6 +8,7 @@
     <title>Title</title>
 </head>
 <body>
+<div class="w3-container w3-teal">
 {{#repos}}
     <form action = "/post" method="post">
         <input  type ="hidden" name="id" value="{{id}}" >
@@ -17,9 +18,10 @@
         <input type="text" name="author" value="{{author}}"/>
         <input type="text" name="isbn" value="{{isbn}}"/>
         <input type="text" name="readAlready" value="{{readAlready}}"/>
-        <button type="submit">Добавить</button>
+        <button class="w3-circle w3-gray w3-large">+</button>
     </form>
 {{/repos}}
+    </div>
 <a href="/main">Main</a>
 </body>
 </html>
