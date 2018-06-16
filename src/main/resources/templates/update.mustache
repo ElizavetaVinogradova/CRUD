@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="w3-container w3-teal">
-{{#repos}}
+{{#books}}
     <form action = "/post" method="post">
         <input  type ="hidden" name="id" value="{{id}}" >
         <input type="text" name="title" value="{{title}}"/>
@@ -20,7 +20,7 @@
         <input type="text" name="readAlready" value="{{readAlready}}"/>
         <button class="w3-circle w3-light-grey w3-pale-dark-grey w3-medium w3-padding-small">+</button>
     </form>
-{{/repos}}
+{{/books}}
     </div>
 <a href="/main">Main</a>
 </body>

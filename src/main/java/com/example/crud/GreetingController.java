@@ -53,20 +53,20 @@ public class GreetingController {
     @GetMapping("edit/{id}")
     public String update(@PathVariable("id") int id, Map<String, Object> model){
         Book book = bookRepository.findById(id);
-        model.put("repos", book);
+        model.put("books", book);
         return "update";
     }
 
     @PostMapping("/post")
-    public String post(@ModelAttribute("repos") Book book){
+    public String post(@ModelAttribute("books") Book book){
         bookRepository.save(book);
         return "redirect:/main";
     }
 
-   /* @PostMapping("remove")
-    public String remove(@PathVariable("id") int id, Model model){
-
-
-        return "main";
-    }*/
+    @GetMapping("remove/{id}")
+    public String remove(@PathVariable("id") int id){
+        System.out.println("id =" + id);
+        bookRepository.deleteById(id);
+        return "redirect:/main";
+    }
 }
