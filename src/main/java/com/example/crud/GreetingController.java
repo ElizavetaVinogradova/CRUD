@@ -4,9 +4,9 @@ import com.example.crud.domain.Book;
 import com.example.crud.repos.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @Controller
@@ -42,11 +42,24 @@ public class GreetingController {
     public String filter(@RequestParam String title, Map<String, Object> model){
         Iterable<Book> books;
         if (title!=null && !title.isEmpty()){
-            books = bookRepository.findByTitle(title);
+            books = bookRepository.findByTitleContaining(title);
         }else {
             books = bookRepository.findAll();
         }
         model.put("books", books);
         return "main";
+    }
+
+    @GetMapping("edit/{id}")
+    public String update(@PathVariable("id") int id, Model model){
+        Book book = bookRepository.findById(id);
+        model.addAttribute("repos", book);
+        return "update";
+    }
+
+    @PostMapping("/post")
+    public String post(@ModelAttribute("repos") Book book){
+        bookRepository.save(book);
+        return "redirect:/main";
     }
 }
