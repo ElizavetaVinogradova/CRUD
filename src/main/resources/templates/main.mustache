@@ -11,24 +11,24 @@
         <input type="text" name="author" placeholder="Имя автора" />
         <input type="text" name="isbn" placeholder="ISBN книги" />
         <input type="text" name="readAlready" placeholder="" />
-        <button class="w3-circle w3-gray w3-large">+</button>
+        <button class="w3-circle w3-light-grey w3-pale-dark-grey w3-medium w3-padding-small">+</button>
     </form>
 </div>
 <div>Список книг:</div>
 <form method="post" action="filter">
     <input type="text" name="title"/>
-    <button type="submit">Найти</button>
+    <button type="submit" class="w3-btn w3-light-grey w3-pale-dark-grey w3-round-large w3-medium w3-padding-small">Найти</button>
 </form>
 {{#books}}
     <div>
         <b>{{id}}</b>
-        <span>{{title}}</span>
+        <span >{{title}}</span>
         <span>{{description}}</span>
         <span>{{printYear}}</span>
         <span>{{author}}</span>
         <span>{{isbn}}</span>
         <span>{{readAlready}}</span>
-        <a href="edit/{{id}}" class="w3-button w3-gray">Изменить</a>
+        <a href="edit/{{id}}" class="w3-btn w3-light-grey w3-pale-dark-grey w3-round-large w3-small w3-padding-small">Изменить</a>
     </div>
 {{/books}}
 </body>
