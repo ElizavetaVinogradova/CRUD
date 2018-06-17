@@ -29,8 +29,10 @@ public class GreetingController {
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String title, @RequestParam String description, @RequestParam int printYear, @RequestParam String author,
-                      @RequestParam String isbn, @RequestParam boolean readAlready, Map<String, Object> model){
+    public String add(@RequestParam String title, @RequestParam String description, @RequestParam Integer printYear, @RequestParam String author,
+                      @RequestParam String isbn, @RequestParam Boolean readAlready, Map<String, Object> model){
+        if (isbn == null || printYear==null || title == null || description==null ||author == null)
+            return "main";
         Book book = new Book(title, description, printYear, author, isbn, readAlready);
         bookRepository.save(book);
         Iterable<Book> books = bookRepository.findAll();
@@ -65,8 +67,17 @@ public class GreetingController {
 
     @GetMapping("remove/{id}")
     public String remove(@PathVariable("id") int id){
-        System.out.println("id =" + id);
         bookRepository.deleteById(id);
+        return "redirect:/main";
+    }
+
+    @GetMapping("read/{id}")
+    public String readAlreadyTo(@PathVariable("id") int id){
+        Book book = bookRepository.findById(id);
+         if (!book.isReadAlready()) {
+           book.setReadAlready(true);
+         }
+       bookRepository.save(book);
         return "redirect:/main";
     }
 }
