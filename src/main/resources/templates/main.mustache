@@ -1,6 +1,11 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        table, td, th {
+            border: 1px solid lightgray;
+        }
+    </style>
 </head>
 <body>
 <div class="w3-container w3-teal">
@@ -21,17 +26,17 @@
 </form>
 {{#books}}
     <div class="w3-responsive">
-        <table class="w3-table-all w3-hoverable w3-small w3-centered w3-striped w3-light-grey">
+        <table class="w3-table-all w3-hoverable w3-small w3-centered w3-striped">
             <tr>
-                <th><b>{{id}}</b></th>
-                <th><span >{{title}}</span></th>
-                <th><span>{{description}}</span></th>
-                <th><span>{{printYear}}</span></th>
-                <th><span>{{author}}</span></th>
-                <th><span>{{isbn}}</span></th>
-                <th><span>{{readAlready}}</span></th>
-                <th><a href="edit/{{id}}" class="w3-btn w3-light-grey w3-pale-dark-grey w3-round-large w3-small w3-padding-small">Изменить</a></th>
-                <th><a href="remove/{{id}}" class="w3-btn w3-light-grey w3-pale-dark-grey w3-round-large w3-small w3-padding-small">Удалить</a></th>
+                <th width="2%"><b>{{id}}</b></th>
+                <th width="15%"><span >{{title}}</span></th>
+                <th width="25%"><span>{{description}}</span></th>
+                <th width="6%"><span>{{printYear}}</span></th>
+                <th width="13%"><span>{{author}}</span></th>
+                <th width="10%"><span>{{isbn}}</span></th>
+                <th width="5%"><span>{{readAlready}}</span></th>
+                <th width="8%"><a href="edit/{{id}}" class="w3-btn w3-light-grey w3-pale-dark-grey w3-round-large w3-small w3-padding-small">Изменить</a></th>
+                <th width="8%"><a href="remove/{{id}}" class="w3-btn w3-dark-gray w3-pale-light-gray w3-round-large w3-small w3-padding-small">Удалить</a></th>
             </tr>
         </table>
     </div>
