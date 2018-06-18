@@ -84,4 +84,17 @@ public class Book {
     public void setReadAlready(boolean readAlready) {
         this.readAlready = readAlready;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", printYear=" + printYear +
+                ", author='" + author + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", readAlready=" + readAlready +
+                '}';
+    }
 }

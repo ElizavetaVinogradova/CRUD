@@ -3,8 +3,12 @@ package com.example.crud;
 import com.example.crud.domain.Book;
 import com.example.crud.repos.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -19,12 +23,40 @@ public class GreetingController {
         return "greeting";
     }
 
-    @GetMapping("/main")
+   /* @GetMapping("/main")
     public String main(Map<String, Object> model){
         Iterable<Book> books = bookRepository.findAll();
         model.put("books", books);
         return "main";
+    }*/
+
+    @GetMapping("/main")
+    public String main(Map<String, Object> model, @RequestParam(required = false) Integer page){
+
+        Iterable<Book> iterable = bookRepository.findAll();
+        List<Book> books = makeCollection(iterable);
+
+        books.forEach(System.out::println);
+
+        PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
+        pagedListHolder.setPageSize(10);
+        model.put("maxPages", pagedListHolder.getPageCount());
+
+        if (page == null || page < 1 || page > pagedListHolder.getPageCount()) {
+            page = 1;
+        }
+
+        model.put("page", page);
+        if (page > pagedListHolder.getPageCount()) {
+            pagedListHolder.setPage(0);
+            model.put("listBooks", pagedListHolder.getPageList());
+        }else {
+            pagedListHolder.setPage(page - 1);
+            model.put("listBooks", pagedListHolder.getPageList());
+        }
+        return "main";
     }
+
 
     @PostMapping("/main")
     public String add(@RequestParam String title, @RequestParam String description, @RequestParam Integer printYear, @RequestParam String author,
@@ -77,5 +109,13 @@ public class GreetingController {
          }
        bookRepository.save(book);
         return "redirect:/main";
+    }
+
+    private <Book> List<Book> makeCollection(Iterable<Book> iter) {
+        List<Book> books = new ArrayList<>();
+        for (Book book : iter) {
+            books.add(book);
+        }
+        return books;
     }
 }
