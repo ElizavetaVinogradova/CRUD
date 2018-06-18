@@ -16,6 +16,9 @@ public class GreetingController {
     @Autowired
     private BookRepository bookRepository;
 
+    private static final int BOOKS_PER_PAGE = 10;
+    private int currentPage = 0;
+
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name,
                            Map<String, Object> model) {
@@ -25,33 +28,24 @@ public class GreetingController {
 
 
     @GetMapping("/main")
-    public String main(Map<String, Object> model, @RequestParam(required = false) Integer page) {
-        if (page != null) {// вот она мякотка
-            Iterable<Book> iterable = bookRepository.findAll();
-            List<Book> books = makeCollection(iterable);
+    public String main(Map<String, Object> model/*, @RequestParam(name="page", required = false) Integer page*/) {
+        Iterable<Book> iterable = bookRepository.findAll();
+        List<Book> books = makeCollection(iterable);
+        //books.forEach(System.out::println);
+        PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
+        pagedListHolder.setPageSize(BOOKS_PER_PAGE);
 
-            books.forEach(System.out::println);
+        if (currentPage < 0 ) { currentPage = 0; }
+        if (currentPage >= pagedListHolder.getPageCount()) { currentPage = pagedListHolder.getPageCount()-1; }
 
-            PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
-            pagedListHolder.setPageSize(10);
-            model.put("maxPages", pagedListHolder.getPageCount());
+        //System.out.println("PAGE = " + currentPage);
 
-            if (page == null || page < 1 || page > pagedListHolder.getPageCount()) {
-                page = 1;
-            }
+        pagedListHolder.setPage(currentPage);
 
-            model.put("page", page);
-            if (page > pagedListHolder.getPageCount()) {
-                pagedListHolder.setPage(0);
-                model.put("listBooks", pagedListHolder.getPageList());
-            } else {
-                pagedListHolder.setPage(page - 1);
-                model.put("listBooks", pagedListHolder.getPageList());
-            }
-        } else {// и вот еще
-            Iterable<Book> books = bookRepository.findAll();
-            model.put("books", books);
-        }
+        model.put("books", pagedListHolder.getPageList());
+        model.put("countForPages", currentPage+1);
+        model.put("quantityOfPages", pagedListHolder.getPageCount());
+
         return "main";
     }
 
@@ -115,4 +109,21 @@ public class GreetingController {
         }
         return books;
     }
+
+    @GetMapping("/prev")
+    public String prev(Map<String, Object> model){
+        //Book book = bookRepository.findById(id);
+        //model.put("books", book);
+        currentPage--;
+        return "redirect:/main";
+    }
+
+    @GetMapping("/next")
+    public String next(Map<String, Object> model){
+        //Book book = bookRepository.findById(id);
+        //model.put("books", book);
+        currentPage++;
+        return "redirect:/main";
+    }
+
 }
