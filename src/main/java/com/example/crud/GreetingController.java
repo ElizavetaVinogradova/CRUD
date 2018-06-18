@@ -23,40 +23,37 @@ public class GreetingController {
         return "greeting";
     }
 
+
     @GetMapping("/main")
-    public String main(Map<String, Object> model){
-        Iterable<Book> books = bookRepository.findAll();
-        model.put("books", books);
+    public String main(Map<String, Object> model, @RequestParam(required = false) Integer page) {
+        if (page != null) {// вот она мякотка
+            Iterable<Book> iterable = bookRepository.findAll();
+            List<Book> books = makeCollection(iterable);
+
+            books.forEach(System.out::println);
+
+            PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
+            pagedListHolder.setPageSize(10);
+            model.put("maxPages", pagedListHolder.getPageCount());
+
+            if (page == null || page < 1 || page > pagedListHolder.getPageCount()) {
+                page = 1;
+            }
+
+            model.put("page", page);
+            if (page > pagedListHolder.getPageCount()) {
+                pagedListHolder.setPage(0);
+                model.put("listBooks", pagedListHolder.getPageList());
+            } else {
+                pagedListHolder.setPage(page - 1);
+                model.put("listBooks", pagedListHolder.getPageList());
+            }
+        } else {// и вот еще
+            Iterable<Book> books = bookRepository.findAll();
+            model.put("books", books);
+        }
         return "main";
     }
-
-   /* @GetMapping("/main")
-    public String main(Map<String, Object> model, @RequestParam(required = false) Integer page){
-
-        Iterable<Book> iterable = bookRepository.findAll();
-        List<Book> books = makeCollection(iterable);
-
-        books.forEach(System.out::println);
-
-        PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
-        pagedListHolder.setPageSize(10);
-        model.put("maxPages", pagedListHolder.getPageCount());
-
-        if (page == null || page < 1 || page > pagedListHolder.getPageCount()) {
-            page = 1;
-        }
-
-        model.put("page", page);
-        if (page > pagedListHolder.getPageCount()) {
-            pagedListHolder.setPage(0);
-            model.put("listBooks", pagedListHolder.getPageList());
-        }else {
-            pagedListHolder.setPage(page - 1);
-            model.put("listBooks", pagedListHolder.getPageList());
-        }
-        return "main";
-    }*/
-
 
     @PostMapping("/main")
     public String add(@RequestParam String title, @RequestParam String description, @RequestParam Integer printYear, @RequestParam String author,
