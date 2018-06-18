@@ -23,14 +23,14 @@ public class GreetingController {
         return "greeting";
     }
 
-   /* @GetMapping("/main")
+    @GetMapping("/main")
     public String main(Map<String, Object> model){
         Iterable<Book> books = bookRepository.findAll();
         model.put("books", books);
         return "main";
-    }*/
+    }
 
-    @GetMapping("/main")
+   /* @GetMapping("/main")
     public String main(Map<String, Object> model, @RequestParam(required = false) Integer page){
 
         Iterable<Book> iterable = bookRepository.findAll();
@@ -55,7 +55,7 @@ public class GreetingController {
             model.put("listBooks", pagedListHolder.getPageList());
         }
         return "main";
-    }
+    }*/
 
 
     @PostMapping("/main")
