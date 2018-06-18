@@ -7,7 +7,6 @@ CREATE TABLE books
   isbn varchar(20),
   print_year int(11),
   read_already bit(1),
-  ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
   )
 
